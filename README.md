@@ -21,8 +21,8 @@ This is a Flutter-based money management app that helps users track and manage t
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/money-management-app.git
-   cd money-management-app
+   git clone https://github.com/AnandhuA/MoneyManagement.git
+   cd MoneyManagement
 2. Install dependencies:
    ```bash
    flutter pub get
