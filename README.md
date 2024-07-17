@@ -1,16 +1,31 @@
-# money_management
+# Money Management App 💰
 
-A new Flutter project.
+This is a Flutter-based money management app that helps users track and manage their expenses and income. The app uses the Hive local database for efficient and secure data storage. Users can add transactions, create categories for expenses and income, and gain insights into their financial habits.
+
+## Features
+
+- **Expense and Income Tracking**: Easily track your expenses and income.
+- **Transaction Management**: Add, edit, and delete transactions with ease.
+- **Category Creation**: Create custom categories for expenses and income to organize your finances better.
+- **Local Database**: Utilizes Hive local database for fast and secure data storage.
+
+## Requirements
+
+- **Flutter SDK**: [Install Flutter](https://flutter.dev/docs/get-started/install)
+- **Dart SDK**: Included with Flutter
+- **IDE**: Visual Studio Code, Android Studio, or IntelliJ IDEA recommended
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Setup
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/money-management-app.git
+   cd money-management-app
+2. Install dependencies:
+   ```bash
+   flutter pub get
+3. Run the app:
+   ```bash
+   flutter run
