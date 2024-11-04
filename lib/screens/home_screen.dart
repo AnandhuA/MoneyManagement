@@ -1,54 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:money_management/screens/transation_screen.dart';
-
-import 'category_screen.dart';
+import 'package:flutter_sms_listener/flutter_sms_listener.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:money_management/widgets/empty_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedindex = 0;
-  final pages = [const TransationScreen(), const CategoryScreen()];
-  void bottomNaviicontap(int index) {
-    setState(() {
-      selectedindex = index;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+    requestPermissions();
+    initializeNotifications();
+    listenForSmsMessages();
+  }
+
+  Future<void> requestPermissions() async {
+    var smsPermission = await Permission.sms.status;
+    if (!smsPermission.isGranted) {
+      await Permission.sms.request();
+    }
+  }
+
+  Future<void> initializeNotifications() async {
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  void listenForSmsMessages() {
+    FlutterSmsListener().onSmsReceived?.listen((message) {
+      String smsBody = message.body ?? "";
+      showSmsNotification(smsBody);
     });
+  }
+
+  Future<void> showSmsNotification(String messageContent) async {
+    var androidDetails = AndroidNotificationDetails(
+      'sms_channel_id',
+      'SMS Notifications',
+      channelDescription: 'This channel is used for SMS notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    var notificationDetails = NotificationDetails(android: androidDetails);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'New SMS Received',
+      messageContent,
+      notificationDetails,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.greenAccent,
-        foregroundColor: Colors.white,
-        title: const Text("MoneyMangment"),
+      appBar: AppBar(title: Text('Money Management')),
+      body: emptyScreen(
+        context: context,
+        text1: "Show",
+        size1: 14,
+        text2: "Nothing",
+        size2: 14,
+        text3: "HomeScreen",
+        size3: 20,
       ),
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.greenAccent,
-        onPressed: () {
-          if (selectedindex == 0) {
-            Navigator.pushNamed(context, "AddTransation");
-          } else {
-            Navigator.pushNamed(context, "AddCategory");
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: "Category")
-        ],
-        currentIndex: selectedindex,
-        onTap: bottomNaviicontap,
-      ),
-      body: pages[selectedindex],
     );
   }
 }
