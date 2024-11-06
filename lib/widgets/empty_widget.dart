@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_management/core/colors.dart';
 
 Widget emptyScreen({
   required BuildContext context,
@@ -24,6 +25,7 @@ Widget emptyScreen({
               style: TextStyle(
                 fontSize: size1,
                 fontWeight: FontWeight.w600,
+                color: AppColor.white,
               ),
             ),
           ),
@@ -42,6 +44,7 @@ Widget emptyScreen({
                 style: TextStyle(
                   fontSize: size3,
                   fontWeight: FontWeight.w600,
+                  color: AppColor.red,
                 ),
               ),
             ],
